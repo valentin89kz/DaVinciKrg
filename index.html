@@ -923,19 +923,19 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 </div>
 <div class="bg-[#292623] rounded-[12px] p-10">
-<form class="space-y-6">
+<form class="space-y-6" id="lead-form" novalidate="">
 <div class="space-y-2">
 <label class="block font-body-md font-medium text-[0.875rem] text-[#FAF7F2]" for="name">Ваше имя</label>
-<input class="w-full h-[52px] bg-transparent border border-white/25 rounded-[8px] px-4 text-[#FAF7F2] focus:border-[#C8912F] focus:ring-1 focus:ring-[#C8912F] transition-colors outline-none font-body-md" id="name" name="name" type="text"/>
+<input class="w-full h-[52px] bg-transparent border border-white/25 rounded-[8px] px-4 text-[#FAF7F2] focus:border-[#C8912F] focus:ring-1 focus:ring-[#C8912F] transition-colors outline-none font-body-md" id="name" name="name" type="text" required="" autocomplete="name"/>
 </div>
 <div class="space-y-2">
 <label class="block font-body-md font-medium text-[0.875rem] text-[#FAF7F2]" for="phone">Телефон или WhatsApp</label>
-<input class="w-full h-[52px] bg-transparent border border-white/25 rounded-[8px] px-4 text-[#FAF7F2] focus:border-[#C8912F] focus:ring-1 focus:ring-[#C8912F] transition-colors outline-none font-body-md" id="phone" name="phone" type="tel"/>
+<input class="w-full h-[52px] bg-transparent border border-white/25 rounded-[8px] px-4 text-[#FAF7F2] focus:border-[#C8912F] focus:ring-1 focus:ring-[#C8912F] transition-colors outline-none font-body-md" id="phone" name="phone" type="tel" required="" autocomplete="tel"/>
 </div>
 <div class="space-y-2">
 <label class="block font-body-md font-medium text-[0.875rem] text-[#FAF7F2]" for="direction">Вуз или направление</label>
-<select class="w-full h-[52px] bg-transparent border border-white/25 rounded-[8px] px-4 text-[#FAF7F2] focus:border-[#C8912F] focus:ring-1 focus:ring-[#C8912F] transition-colors outline-none font-body-md appearance-none [&amp;&gt;option]:text-black" id="direction" name="direction">
-<option disabled="" selected="" value=""></option>
+<select class="w-full h-[52px] bg-transparent border border-white/25 rounded-[8px] px-4 text-[#FAF7F2] focus:border-[#C8912F] focus:ring-1 focus:ring-[#C8912F] transition-colors outline-none font-body-md appearance-none [&amp;&gt;option]:text-black" id="direction" name="direction" required="">
+<option disabled="" selected="" value="">Выберите направление</option>
 <option value="arch">Архитектура</option>
 <option value="design">Дизайн</option>
 <option value="art">Живопись / Графика</option>
@@ -952,7 +952,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 <div class="flex items-start gap-3 pt-2">
 <input class="mt-1 w-4 h-4 rounded-[4px] border-white/25 bg-transparent text-[#A8431F] focus:ring-[#C8912F] focus:ring-offset-0 focus:ring-offset-[#292623]" id="policy" name="policy" required="" type="checkbox"/>
 <label class="font-body-md text-[0.8125rem] text-[#FAF7F2] opacity-70" for="policy">
-                            Согласен на обработку персональных данных <a class="underline hover:text-[#C8912F] transition-colors focus-ring" href="/">политика</a>
+                            Согласен на обработку персональных данных <a class="underline hover:text-[#C8912F] transition-colors focus-ring" href="privacy.html" target="_blank" rel="noopener">политика</a>
 </label>
 </div>
 <button class="w-full h-[52px] bg-[#A8431F] text-white rounded-[8px] font-medium font-body-md hover:bg-[#882c08] transition-colors focus-ring mt-4" type="submit">
@@ -976,7 +976,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#works">Работы учеников</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#price">Стоимость</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#faq">Вопросы</a>
-<a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="/">Политика обработки данных</a>
+<a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="privacy.html">Политика обработки данных</a>
 </div>
 <div class="flex flex-col space-y-3">
 <p class="font-body-md text-[0.9375rem] text-[#57514A]">г. Караганда, ул. Бухар-Жырау, 55</p>
@@ -992,4 +992,95 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 </footer>
 </main>
+<script id="lead-form-script">
+/* Отправка заявки в WhatsApp.
+   Формы на статическом сайте отправлять некуда — бэкенда нет. Поэтому по нажатию
+   собираем сообщение из полей и открываем чат WhatsApp школы с уже подставленным
+   текстом. Владельцу остаётся нажать «отправить» в самом мессенджере.
+   Важно: данные уходят через WhatsApp (Meta), то есть за пределы Казахстана —
+   это трансграничная передача, и она раскрыта в privacy.html. */
+(function () {
+  var PHONE = '77755677056'; // номер школы в международном формате, без плюса и пробелов
+  var form = document.getElementById('lead-form');
+  if (!form) return;
+
+  var ERR = '#C0392B';   // киноварь — ошибки
+  var OK  = 'rgba(255,255,255,0.25)';
+
+  function fieldError(el, message) {
+    clearError(el);
+    el.style.borderColor = ERR;
+    el.setAttribute('aria-invalid', 'true');
+    var p = document.createElement('p');
+    p.className = 'form-error';
+    p.textContent = message;
+    p.style.cssText = 'color:' + ERR + ';font-size:0.8125rem;margin-top:0.375rem;';
+    (el.type === 'checkbox' ? el.closest('div') : el.parentNode).appendChild(p);
+  }
+
+  function clearError(el) {
+    el.style.borderColor = OK;
+    el.removeAttribute('aria-invalid');
+    var box = el.type === 'checkbox' ? el.closest('div') : el.parentNode;
+    var old = box.querySelector('.form-error');
+    if (old) old.remove();
+  }
+
+  function selectedText(sel) {
+    var o = sel.options[sel.selectedIndex];
+    return o && o.value ? o.text.trim() : '';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var name   = form.querySelector('#name');
+    var phone  = form.querySelector('#phone');
+    var dir    = form.querySelector('#direction');
+    var group  = form.querySelector('#group');
+    var policy = form.querySelector('#policy');
+
+    [name, phone, dir, group, policy].forEach(clearError);
+
+    var bad = null;
+
+    if (!name.value.trim()) {
+      fieldError(name, 'Укажите, как к вам обращаться'); bad = bad || name;
+    }
+    // достаточно, чтобы в номере было не меньше 10 цифр
+    var digits = phone.value.replace(/\D/g, '');
+    if (digits.length < 10) {
+      fieldError(phone, 'Укажите номер телефона, на который можно ответить'); bad = bad || phone;
+    }
+    if (!selectedText(dir)) {
+      fieldError(dir, 'Выберите вуз или направление'); bad = bad || dir;
+    }
+    if (!policy.checked) {
+      fieldError(policy, 'Без согласия на обработку данных мы не сможем вам перезвонить'); bad = bad || policy;
+    }
+
+    if (bad) { bad.focus(); return; }
+
+    var lines = [
+      'Новая заявка с сайта',
+      '',
+      'Имя: ' + name.value.trim(),
+      'Телефон: ' + phone.value.trim(),
+      'Вуз/направление: ' + selectedText(dir),
+      'Удобная группа: ' + selectedText(group)
+    ];
+
+    var url = 'https://wa.me/' + PHONE + '?text=' + encodeURIComponent(lines.join('\n'));
+    window.open(url, '_blank', 'noopener');
+  });
+
+  // убираем подсветку ошибки, как только пользователь начал исправлять
+  ['#name', '#phone', '#direction', '#group', '#policy'].forEach(function (s) {
+    var el = form.querySelector(s);
+    if (!el) return;
+    el.addEventListener('input',  function () { clearError(el); });
+    el.addEventListener('change', function () { clearError(el); });
+  });
+})();
+</script>
 </body></html>
