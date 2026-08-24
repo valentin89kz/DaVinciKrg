@@ -304,12 +304,66 @@ select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.o
 }
 .\[\&\>option\]\:text-black > option { --tw-text-opacity: 1; color: rgb(0 0 0 / var(--tw-text-opacity, 1)); }
 </style>
+
+<style id="layout-fixes">
+/* Правки шапки. Исходная вёрстка ставила всё в одну строку и содержимое
+   переносилось: логотип рвался на две строки, «Работы учеников» и телефон
+   тоже. Подпись школы убрана под логотип — так задумывалось изначально,
+   и это освобождает около 180px. Ниже 1100px прячем телефон, ниже 900px —
+   меню; кнопка «Записаться» остаётся видимой всегда. */
+header > div { gap: 1.5rem; }
+header .site-brand {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  flex-shrink: 0;
+}
+header .site-brand > a { line-height: 1.05; white-space: nowrap; }
+header .site-brand > span {
+  display: block !important;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  line-height: 1.25;
+}
+header nav { gap: 1.25rem !important; }
+header nav > a { white-space: nowrap; }
+header .site-actions { flex-shrink: 0; }
+header .site-actions > a { white-space: nowrap; }
+@media (max-width: 1100px) { header .site-phone { display: none !important; } }
+@media (max-width: 900px)  { header nav { display: none !important; } }
+/* Узкие экраны: подпись «художественная школа · Караганда» занимает 210px и
+   вместе с кнопкой не влезает в 343px доступной ширины — кнопка уезжала за
+   край. Прячем подпись (город есть в FAQ и подвале) и ужимаем логотип.
+   Это временная мера: полноценная мобильная шапка с меню-гамбургером
+   и липкой панелью WhatsApp — задача следующей итерации, см. next-prompt.md */
+@media (max-width: 520px) {
+  header > div { gap: 1rem; }
+  header .site-brand > a { font-size: 1.5rem; }
+  header .site-brand > span { display: none !important; }
+  header .site-actions > a { padding-left: 1rem; padding-right: 1rem; }
+}
+
+/* Переполнение двухколоночных сеток. Колонки заданы процентами (45%+55%
+   и 55%+45% — ровно 100% контейнера), а расстояние между ними прибавляется
+   сверху, из-за чего строка всегда шире контейнера на величину gap.
+   На широком экране это уходило в поля и было незаметно, около 1150px
+   вылезало наружу и давало горизонтальную прокрутку.
+   Доли fr распределяют место уже ПОСЛЕ вычета отступов. */
+@media (min-width: 768px) {
+  div[class*="grid-cols-[45%_55%]"] { grid-template-columns: 0.45fr 0.55fr !important; }
+  div[class*="grid-cols-[55%_45%]"] { grid-template-columns: 0.55fr 0.45fr !important; }
+}
+/* Ячейки грида по умолчанию не сжимаются меньше своего содержимого —
+   без этого длинное слово или широкая картинка снова распирают колонку. */
+div[class*="grid-cols-[45%_55%]"] > *,
+div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
+</style>
 </head>
 <body class="font-body-md text-body-md antialiased">
 <!-- Header (Shared Component Mapping) -->
 <header class="bg-background/92 backdrop-blur-md text-primary dark:text-primary-fixed-dim docked full-width top-0 sticky z-50 transition-colors border-b border-outline-variant dark:border-outline">
 <div class="flex justify-between items-center w-full px-container-padding max-w-max-width mx-auto py-4">
-<div class="flex items-baseline gap-2">
+<div class="site-brand flex items-baseline gap-2">
 <a class="font-display-lg text-headline-sm uppercase tracking-wider text-on-surface dark:text-on-surface-variant focus-ring" href="/">DA VINCI</a>
 <span class="text-on-surface-variant text-xs hidden md:inline">художественная школа · Караганда</span>
 </div>
@@ -320,8 +374,8 @@ select { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.o
 <a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#price">Стоимость</a>
 <a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#faq">Вопросы</a>
 </nav>
-<div class="flex items-center gap-4">
-<a class="hidden md:block font-body-md text-body-md text-on-surface-variant hover:text-primary focus-ring" href="tel:+77755677056">+7 775 567 7056</a>
+<div class="site-actions flex items-center gap-4">
+<a class="site-phone hidden md:block font-body-md text-body-md text-on-surface-variant hover:text-primary focus-ring" href="tel:+77755677056">+7 775 567 7056</a>
 <a class="btn-primary px-6 py-2 font-body-md font-medium focus-ring" href="#cta">Записаться</a>
 </div>
 </div>
