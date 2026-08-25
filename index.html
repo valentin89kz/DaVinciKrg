@@ -336,6 +336,21 @@ header .site-actions > a { white-space: nowrap; }
    край. Прячем подпись (город есть в FAQ и подвале) и ужимаем логотип.
    Это временная мера: полноценная мобильная шапка с меню-гамбургером
    и липкой панелью WhatsApp — задача следующей итерации, см. next-prompt.md */
+/* Преподавателей теперь двое, а сетка была рассчитана на пятерых —
+   две карточки растягивались на всю ширину и выглядели случайно.
+   Ограничиваем двумя колонками и центрируем. */
+#teachers .teachers-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  max-width:720px; margin-left:auto; margin-right:auto;
+}
+@media (max-width:640px){
+  #teachers .teachers-grid{ grid-template-columns:1fr !important; max-width:360px; }
+}
+/* «Только черчение» — заголовок набран крупной антиквой, на узких экранах
+   не помещается в одну строку, уменьшаем. */
+@media (max-width:1023px){
+  #admission .font-display-lg{ font-size:2rem !important; }
+}
 @media (max-width: 520px) {
   header > div { gap: 1rem; }
   header .site-brand > a { font-size: 1.5rem; }
@@ -390,7 +405,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
                         Научим рисовать <span class="text-primary-container">с нуля</span> до уровня вступительного экзамена
                     </h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
-                        Интенсивный 3-месячный курс академического рисунка для поступления в архитектурные и художественные вузы Казахстана и зарубежья.
+                        Системная подготовка к вступительным экзаменам в архитектурные и дизайнерские вузы Казахстана и других стран. Занятия в течение учебного года — академический рисунок, живопись, черчение, композиция и скульптура.
                     </p>
 <div class="flex flex-col sm:flex-row gap-4 pt-4">
 <a class="btn-primary px-8 py-3 text-center focus-ring font-medium" href="#cta">Записаться на пробное занятие</a>
@@ -418,13 +433,13 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div class="hidden md:block h-16 w-px bg-[#DCD3C6]"></div>
 <div class="flex flex-col items-center text-center px-4">
-<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">72 года</span>
+<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">50 лет</span>
 <span class="font-body-md text-[0.9375rem] text-[#57514A] mt-2">суммарный опыт преподавателей</span>
 </div>
 <div class="hidden md:block h-16 w-px bg-[#DCD3C6]"></div>
 <div class="flex flex-col items-center text-center px-4">
-<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">3 месяца</span>
-<span class="font-body-md text-[0.9375rem] text-[#57514A] mt-2">полный курс подготовки</span>
+<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">Учебный год</span>
+<span class="font-body-md text-[0.9375rem] text-[#57514A] mt-2">длительность программы</span>
 </div>
 </div>
 </div>
@@ -522,46 +537,86 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="text-center mb-16 space-y-4">
 <p class="font-eyebrow text-eyebrow text-ochre uppercase tracking-[0.12em]">ПРОГРАММА</p>
-<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Что вы освоите за 3 месяца</h2>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Что вы освоите за учебный год</h2>
 <div class="w-12 h-[3px] bg-ochre mx-auto"></div>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Мы развиваем не только технику, но и пространственное, композиционное и профессиональное мышление — навыки, которые становятся фундаментом будущей профессии.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">01</span>
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Гипсовые тела вращения</h3>
-<p class="font-body-md text-[#57514A]">Куб, шар, конус, цилиндр. Построение, линейная перспектива, светотень.</p>
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Академический рисунок</h3>
+<p class="font-body-md text-[#57514A]">Гипсовые тела, натюрморт, гипсовая голова, портрет с натуры. Основа вступительного экзамена.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">02</span>
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Натюрморт</h3>
-<p class="font-body-md text-[#57514A]">Композиция из предметов быта, тональные отношения, передача материальности.</p>
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Живопись</h3>
+<p class="font-body-md text-[#57514A]">Акварель и гуашь. Тональные и цветовые отношения, передача материальности.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">03</span>
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Гипсовая голова</h3>
-<p class="font-body-md text-[#57514A]">Обрубовка, розетка, античная голова. Главный экзаменационный лист.</p>
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Черчение</h3>
+<p class="font-body-md text-[#57514A]">Проекции, разрезы, аксонометрия. Для архитектурных и инженерных направлений.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">04</span>
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Портрет с натуры</h3>
-<p class="font-body-md text-[#57514A]">Пропорции, конструкция черепа, характер модели.</p>
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Композиция</h3>
+<p class="font-body-md text-[#57514A]">Законы построения листа: равновесие, ритм, соподчинение, золотое сечение.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">05</span>
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Живопись и композиция</h3>
-<p class="font-body-md text-[#57514A]">Акварель и гуашь — если этого требует ваш вуз.</p>
-</div>
-<div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
-<span class="font-display-lg text-[2.5rem] text-ochre font-semibold">06</span>
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Черчение и перспектива</h3>
-<p class="font-body-md text-[#57514A]">Для архитектурных и дизайнерских направлений.</p>
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Скульптура</h3>
+<p class="font-body-md text-[#57514A]">Работа с объёмом и пластикой формы. Развивает пространственное мышление.</p>
 </div>
 </div>
 <div class="text-center">
 <a class="inline-block border-2 border-[#A8431F] text-[#A8431F] px-8 py-3 rounded-lg font-medium hover:bg-[#A8431F] hover:text-white transition-colors focus-ring" href="#cta">Узнать программу под мой вуз</a>
 </div>
 </div>
-</section><section class="bg-[#F1EAE0] py-24" id="process">
+</section><section class="bg-[#F1EAE0] py-24" id="admission">
+<div class="max-w-max-width mx-auto px-container-padding">
+<div class="text-center mb-16 space-y-4">
+<p class="font-eyebrow text-[14px] text-[#C8912F] uppercase tracking-[0.12em]">ПОСТУПЛЕНИЕ</p>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Помогаем поступить</h2>
+<div class="w-12 h-[3px] bg-[#C8912F] mx-auto"></div>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Каждый год наши ученики проходят вступительные испытания и поступают на архитектурные и дизайнерские направления.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-[#FAF7F2] rounded-xl border border-[#DCD3C6] p-8">
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18] mb-6">Что входит в подготовку</h3>
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Подготовка к вступительным экзаменам</span>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Подготовка портфолио для поступления в Казахстане и за рубежом</span>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Индивидуальная работа над слабыми сторонами</span>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Системная подготовка в течение учебного года</span>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Свидетельство об окончании школы</span>
+</div>
+</div>
+</div>
+<div class="bg-[#FAF7F2] rounded-xl border border-[#DCD3C6] p-8 flex flex-col space-y-4">
+<span class="font-display-lg text-[2.5rem] text-ochre font-semibold">Только черчение</span>
+<p class="font-body-md text-[#57514A]">Если для выбранной специальности вступительный экзамен включает только черчение, можно заниматься отдельно — без прохождения полного курса художественной подготовки.</p>
+<div class="h-px w-full bg-[#DCD3C6]"></div>
+<p class="font-body-md text-[#57514A]">Свидетельство об окончании школы выдаётся по итогам годового или двухгодичного обучения. Именно системная подготовка в течение учебного года даёт результат на экзамене — за два-три месяца его не достичь.</p>
+<a class="inline-block border-2 border-[#A8431F] text-[#A8431F] px-8 py-3 rounded-lg font-medium hover:bg-[#A8431F] hover:text-white transition-colors focus-ring text-center mt-2" href="#cta">Записаться только на черчение</a>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-[#FAF7F2] py-24" id="process">
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="text-center mb-16 space-y-4">
 <h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Как проходит подготовка</h2>
@@ -601,58 +656,33 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 </div>
 </div>
-</section><section class="bg-[#FAF7F2] py-24" id="teachers">
+</section><section class="bg-[#F1EAE0] py-24" id="teachers">
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="text-center mb-16 space-y-4">
 <p class="font-eyebrow text-eyebrow text-ochre uppercase tracking-[0.12em]">КОМАНДА</p>
-<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Пять преподавателей, 72 года суммарного опыта</h2>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Два преподавателя, 50 лет опыта</h2>
 <div class="w-12 h-[3px] bg-ochre mx-auto"></div>
-<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Выпускники профильных вузов Казахстана и России. Каждый ведёт свою группу и разбирает работы лично.</p>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">За подготовкой стоят практикующий художник и академик Национальной академии дизайна. Каждый ведёт свою группу и разбирает работы лично.</p>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
+<div class="teachers-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
 <div class="space-y-4">
 <div class="aspect-square rounded-xl overflow-hidden border border-[#DCD3C6]">
-<img alt="Чеботрош Жанна Сергеевна" class="w-full h-full object-cover" src="img/02.jpg"/>
+<img alt="Чеботрош Жанна Сергеевна, преподаватель школы Da Vinci" class="w-full h-full object-cover" src="img/teacher-chebotrosh.jpg"/>
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[#1C1A18]">Чеботрош Жанна Сергеевна</h4>
-<p class="text-[0.8125rem] text-[#57514A]">КарГУ · 10 лет опыта</p>
+<p class="text-[0.8125rem] text-[#57514A]">КарГУ · художник · 15 лет опыта</p>
+<p class="text-[0.8125rem] text-[#57514A] mt-2">Основатель школы и главный преподаватель</p>
 </div>
 </div>
 <div class="space-y-4">
 <div class="aspect-square rounded-xl overflow-hidden border border-[#DCD3C6]">
-<img alt="Молчанова Оксана Сергеевна" class="w-full h-full object-cover" src="img/03.jpg"/>
+<img alt="Лагода Лариса Викторовна, преподаватель школы Da Vinci" class="w-full h-full object-cover" src="img/teacher-lagoda.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[#1C1A18]">Молчанова Оксана Сергеевна</h4>
-<p class="text-[0.8125rem] text-[#57514A]">КарГУ · 6 лет опыта</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square rounded-xl overflow-hidden border border-[#DCD3C6]">
-<img alt="Максименко Анна Иоанновна" class="w-full h-full object-cover" src="img/04.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[#1C1A18]">Максименко Анна Иоанновна</h4>
-<p class="text-[0.8125rem] text-[#57514A]">МосГУ · 25 лет опыта</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square rounded-xl overflow-hidden border border-[#DCD3C6]">
-<img alt="Тихомиров Антон Борисович" class="w-full h-full object-cover" src="img/05.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[#1C1A18]">Тихомиров Антон Борисович</h4>
-<p class="text-[0.8125rem] text-[#57514A]">СПбГУ · 18 лет опыта</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square rounded-xl overflow-hidden border border-[#DCD3C6]">
-<img alt="Кайназарова Алла Михайловна" class="w-full h-full object-cover" src="img/06.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[#1C1A18]">Кайназарова Алла Михайловна</h4>
-<p class="text-[0.8125rem] text-[#57514A]">АлГУ · 13 лет опыта</p>
+<h4 class="font-body-md font-semibold text-[#1C1A18]">Лагода Лариса Викторовна</h4>
+<p class="text-[0.8125rem] text-[#57514A]">Черчение и академический рисунок · 35 лет опыта</p>
+<p class="text-[0.8125rem] text-[#57514A] mt-2">Академик Национальной академии дизайна. Член Евразийского и Казахстанского союзов дизайнеров.</p>
 </div>
 </div>
 </div>
@@ -672,7 +702,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Алина</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">3 месяца с нуля</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения, с нуля</p>
 </div>
 </div>
 <div class="space-y-4">
@@ -681,7 +711,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Дамир</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">3 месяца</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения</p>
 </div>
 </div>
 <div class="space-y-4">
@@ -690,7 +720,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Камила</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">2 месяца</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">2 года обучения</p>
 </div>
 </div>
 <div class="space-y-4">
@@ -699,7 +729,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Ержан</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">3 месяца с нуля</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения, с нуля</p>
 </div>
 </div>
 <div class="space-y-4">
@@ -708,7 +738,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Софья</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">3 месяца</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения</p>
 </div>
 </div>
 <div class="space-y-4">
@@ -717,7 +747,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Тимур</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">2 месяца</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">2 года обучения</p>
 </div>
 </div>
 <div class="space-y-4">
@@ -726,7 +756,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Айгерим</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">3 месяца с нуля</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения, с нуля</p>
 </div>
 </div>
 <div class="space-y-4">
@@ -735,7 +765,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div>
 <h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Никита</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">3 месяца</p>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения</p>
 </div>
 </div>
 </div>
@@ -755,13 +785,13 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 <div class="absolute top-10 right-10 bg-[#C8912F] rounded-full px-4 py-1 text-[#1C1A18] font-body-md text-[14px] font-semibold">Материалы включены</div>
 <div class="flex flex-col space-y-8">
 <div>
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18] mb-2">Курс подготовки к поступлению · 3 месяца</h3>
-<div class="font-display-lg font-semibold text-[3rem] text-[#1C1A18]">27 000 ₸</div>
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18] mb-2">Курс подготовки к поступлению · учебный год</h3>
+<div class="font-display-lg font-semibold text-[3rem] text-[#1C1A18]">35 000 ₸ <span class="font-body-md text-[1.125rem] font-medium text-[#57514A]">в месяц</span></div>
 </div>
 <div class="space-y-4">
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Занятия два раза в неделю по два часа</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Занятия два раза в неделю по два часа в течение учебного года</span>
 </div>
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
@@ -773,11 +803,11 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </div>
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Индивидуальный план под ваш вуз</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Свидетельство об окончании школы по итогам года</span>
 </div>
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Помощь в сборке портфолио</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Помощь в сборке портфолио для вузов Казахстана и других стран</span>
 </div>
 </div>
 <div class="h-px w-full bg-[#DCD3C6]"></div>
@@ -855,20 +885,20 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 </details>
 <details class="group border-b border-[#DCD3C6]">
 <summary class="flex justify-between items-center font-body-md font-semibold text-[1.0625rem] text-[#1C1A18] cursor-pointer py-6 focus-ring">
-                    За сколько месяцев реально подготовиться?
+                    Сколько длится обучение?
                     <span class="material-symbols-outlined text-[#C8912F] transition-transform duration-300 group-open:rotate-180">expand_more</span>
 </summary>
 <div class="pb-6 font-body-md text-[1rem] text-[#57514A]">
-                    Курс рассчитан на три месяца. За это время ученик с нуля доходит до уровня экзаменационного листа.
+                    Программа рассчитана на учебный год, есть и двухгодичная подготовка. Свидетельство об окончании школы выдаётся только после годового или двухгодичного обучения: за два-три месяца подготовить к вступительному экзамену невозможно.
                 </div>
 </details>
 <details class="group border-b border-[#DCD3C6]">
 <summary class="flex justify-between items-center font-body-md font-semibold text-[1.0625rem] text-[#1C1A18] cursor-pointer py-6 focus-ring">
-                    Что входит в 27 000 ₸?
+                    Что входит в 35 000 ₸?
                     <span class="material-symbols-outlined text-[#C8912F] transition-transform duration-300 group-open:rotate-180">expand_more</span>
 </summary>
 <div class="pb-6 font-body-md text-[1rem] text-[#57514A]">
-                    Занятия, все материалы и разбор работ. Докупать ничего не нужно.
+                    Занятия два раза в неделю, все материалы и разбор каждой работы. Докупать ничего не нужно.
                 </div>
 </details>
 <details class="group border-b border-[#DCD3C6]">
@@ -969,6 +999,7 @@ div[class*="grid-cols-[55%_45%]"] > * { min-width: 0; }
 <div class="space-y-2">
 <a class="block font-display-lg font-semibold text-[1.5rem] text-[#1C1A18] tracking-wider uppercase focus-ring w-fit" href="/">DA VINCI</a>
 <p class="font-body-md text-[0.875rem] text-[#57514A]">Художественная школа</p>
+<p class="font-body-md text-[0.875rem] text-[#A8431F] mt-2">Рисуем знания, создаём будущее</p>
 </div>
 <div class="flex flex-col space-y-3">
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#program">Программа</a>
