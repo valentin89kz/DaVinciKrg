@@ -339,12 +339,15 @@ header .site-actions > a { white-space: nowrap; }
 /* Преподавателей теперь двое, а сетка была рассчитана на пятерых —
    две карточки растягивались на всю ширину и выглядели случайно.
    Ограничиваем двумя колонками и центрируем. */
+/* Преподаватель на сайте один, сетка была рассчитана сначала на пятерых,
+   потом на двоих. Одна карточка на всю ширину выглядела бы случайной,
+   поэтому фиксируем узкую колонку по центру. */
 #teachers .teachers-grid{
-  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-  max-width:720px; margin-left:auto; margin-right:auto;
+  grid-template-columns:minmax(0,320px) !important;
+  justify-content:center; max-width:none; margin-left:auto; margin-right:auto;
 }
 @media (max-width:640px){
-  #teachers .teachers-grid{ grid-template-columns:1fr !important; max-width:360px; }
+  #teachers .teachers-grid{ grid-template-columns:minmax(0,300px) !important; }
 }
 /* «Только черчение» — заголовок набран крупной антиквой, на узких экранах
    не помещается в одну строку, уменьшаем. */
@@ -473,7 +476,7 @@ body.nav-open{ overflow:hidden; }
 <nav class="hidden md:flex gap-6 items-center">
 <a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#program">Программа</a>
 <a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#universities">Вузы</a>
-<a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#works">Работы учеников</a>
+<a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#works">Студия</a>
 <a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#price">Стоимость</a>
 <a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#faq">Вопросы</a>
 </nav>
@@ -496,7 +499,7 @@ body.nav-open{ overflow:hidden; }
 <a href="#admission">Поступление</a>
 <a href="#universities">Вузы</a>
 <a href="#teachers">Преподаватели</a>
-<a href="#works">Работы учеников</a>
+<a href="#works">Студия</a>
 <a href="#price">Стоимость</a>
 <a href="#faq">Вопросы</a>
 </nav>
@@ -527,7 +530,7 @@ body.nav-open{ overflow:hidden; }
 </div>
 </div>
 <div class="relative aspect-[3/4] rounded-xl overflow-hidden border border-pencil-trace shadow-graphite-dust">
-<img class="w-full h-full object-cover" data-alt="A meticulously crafted academic graphite drawing on an easel in a bright, minimalist art studio setting. The drawing shows a classical plaster cast head. The lighting is soft, natural daylight emphasizing the texture of heavy cotton paper. Editorial, high-end photography style, tactile aesthetic." src="img/01.jpg"/>
+<img class="w-full h-full object-cover" alt="Ученица художественной школы Da Vinci с кистями среди гипсовых слепков"dio setting. The drawing shows a classical plaster cast head. The lighting is soft, natural daylight emphasizing the texture of heavy cotton paper. Editorial, high-end photography style, tactile aesthetic." src="img/hero.jpg"/>
 </div>
 </div>
 </section><section class="bg-[#F1EAE0] py-16" id="stats">
@@ -544,8 +547,8 @@ body.nav-open{ overflow:hidden; }
 </div>
 <div class="hidden md:block h-16 w-px bg-[#DCD3C6]"></div>
 <div class="flex flex-col items-center text-center px-4">
-<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">50 лет</span>
-<span class="font-body-md text-[0.9375rem] text-[#57514A] mt-2">суммарный опыт преподавателей</span>
+<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">15 лет</span>
+<span class="font-body-md text-[0.9375rem] text-[#57514A] mt-2">опыт преподавателя</span>
 </div>
 <div class="hidden md:block h-16 w-px bg-[#DCD3C6]"></div>
 <div class="flex flex-col items-center text-center px-4">
@@ -771,9 +774,9 @@ body.nav-open{ overflow:hidden; }
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="text-center mb-16 space-y-4">
 <p class="font-eyebrow text-eyebrow text-ochre uppercase tracking-[0.12em]">КОМАНДА</p>
-<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Два преподавателя, 50 лет опыта</h2>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Основатель и главный преподаватель</h2>
 <div class="w-12 h-[3px] bg-ochre mx-auto"></div>
-<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">За подготовкой стоят практикующий художник и академик Национальной академии дизайна. Каждый ведёт свою группу и разбирает работы лично.</p>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Практикующий художник, выпускница КарГУ. Ведёт группы лично и разбирает каждую работу ученика.</p>
 </div>
 <div class="teachers-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
 <div class="space-y-4">
@@ -786,97 +789,88 @@ body.nav-open{ overflow:hidden; }
 <p class="text-[0.8125rem] text-[#57514A] mt-2">Основатель школы и главный преподаватель</p>
 </div>
 </div>
-<div class="space-y-4">
-<div class="aspect-square rounded-xl overflow-hidden border border-[#DCD3C6]">
-<img alt="Лагода Лариса Викторовна, преподаватель школы Da Vinci" class="w-full h-full object-cover" src="img/teacher-lagoda.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[#1C1A18]">Лагода Лариса Викторовна</h4>
-<p class="text-[0.8125rem] text-[#57514A]">Черчение и академический рисунок · 35 лет опыта</p>
-<p class="text-[0.8125rem] text-[#57514A] mt-2">Академик Национальной академии дизайна. Член Евразийского и Казахстанского союзов дизайнеров.</p>
-</div>
-</div>
-</div>
+
 </div>
 </section>
 <section class="bg-[#1C1A18] py-24" id="works">
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="text-center mb-16 space-y-4">
-<p class="font-eyebrow text-[14px] text-[#C8912F] uppercase tracking-[0.12em]">РЕЗУЛЬТАТЫ</p>
-<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#FAF7F2]">Работы наших учеников</h2>
+<p class="font-eyebrow text-[14px] text-[#C8912F] uppercase tracking-[0.12em]">СТУДИЯ</p>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#FAF7F2]">Внутри нашей студии</h2>
+<p class="font-body-md text-[#FAF7F2] opacity-75 max-w-[68ch] mx-auto">Занятия идут в оборудованной мастерской: мольберты, гипсовые слепки, натурный фонд. Малые группы, разбор каждой работы.</p>
 <div class="w-12 h-[3px] bg-[#C8912F] mx-auto"></div>
 </div>
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16">
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 1" class="w-full h-full object-cover block" src="img/07.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Ученица рисует гипсовую голову с натуры" class="w-full h-full object-cover block" loading="lazy" src="img/studio-1.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Алина</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения, с нуля</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Академический рисунок</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Гипсовая голова с натуры</p>
 </div>
 </div>
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 2" class="w-full h-full object-cover block" src="img/08.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Ученица работает над портретом живой модели" class="w-full h-full object-cover block" loading="lazy" src="img/studio-2.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Дамир</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Портрет с натуры</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Работа с живой моделью</p>
 </div>
 </div>
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 3" class="w-full h-full object-cover block" src="img/09.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Штудии гипсовых слепков: глаз и ухо" class="w-full h-full object-cover block" loading="lazy" src="img/studio-3.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Камила</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">2 года обучения</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Штудии деталей</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Глаз, ухо, нос — гипсовые слепки</p>
 </div>
 </div>
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 4" class="w-full h-full object-cover block" src="img/10.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Ученик выполняет чертёж" class="w-full h-full object-cover block" loading="lazy" src="img/studio-4.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Ержан</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения, с нуля</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Черчение</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Для архитектурных направлений</p>
 </div>
 </div>
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 5" class="w-full h-full object-cover block" src="img/11.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Занятие в студии художественной школы" class="w-full h-full object-cover block" loading="lazy" src="img/studio-5.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Софья</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Занятие в студии</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Малые группы, разбор каждой работы</p>
 </div>
 </div>
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 6" class="w-full h-full object-cover block" src="img/12.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Мастерская с мольбертами и гипсовыми слепками" class="w-full h-full object-cover block" loading="lazy" src="img/studio-6.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Тимур</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">2 года обучения</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Наша мастерская</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Мольберты, слепки, натурный фонд</p>
 </div>
 </div>
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 7" class="w-full h-full object-cover block" src="img/13.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Вручение свидетельств об окончании школы" class="w-full h-full object-cover block" loading="lazy" src="img/studio-7.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Айгерим</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения, с нуля</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Свидетельство об окончании</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Выдаётся по итогам учебного года</p>
 </div>
 </div>
 <div class="space-y-4">
-<div class="aspect-[3/4] w-full">
-<img alt="Work 8" class="w-full h-full object-cover block" src="img/14.jpg"/>
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Ученица пишет живопись на мольберте" class="w-full h-full object-cover block" loading="lazy" src="img/studio-8.jpg"/>
 </div>
 <div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Никита</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">1 год обучения</p>
+<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Живопись</h4>
+<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Акварель и гуашь на мольберте</p>
 </div>
 </div>
 </div>
@@ -1115,7 +1109,7 @@ body.nav-open{ overflow:hidden; }
 <div class="flex flex-col space-y-3">
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#program">Программа</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#universities">Вузы</a>
-<a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#works">Работы учеников</a>
+<a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#works">Студия</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#price">Стоимость</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="#faq">Вопросы</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="privacy.html">Политика обработки данных</a>
