@@ -321,10 +321,37 @@ header .site-brand {
 header .site-brand > a { line-height: 1.05; white-space: nowrap; }
 header .site-brand > span {
   display: block !important;
-  white-space: nowrap;
   font-size: 0.75rem;
   line-height: 1.25;
 }
+/* Дескриптор под логотипом длиннее прежней подписи, поэтому переносим его
+   в две строки и ограничиваем ширину — иначе он снова распирает шапку.
+   Ниже 1100px прячем: там уже не остаётся места под меню и кнопку. */
+header .site-brand > .site-tagline{
+  white-space:normal;
+  max-width:232px;
+  font-size:.6875rem;
+  line-height:1.3;
+  margin-top:.15rem;
+}
+@media (max-width:1100px){ header .site-brand > .site-tagline{ display:none !important; } }
+
+/* Вузы: строка вместо колонки. Полные названия длинные, и в центрированном
+   столбике они рвались на четыре строки — в строку читается спокойнее. */
+.uni-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.uni-row{
+  display:flex; align-items:center; gap:1rem;
+  background:#F1EAE0; border:1px solid #DCD3C6; border-radius:12px; padding:1.25rem 1.5rem;
+}
+.uni-ico{ font-size:32px; color:rgba(28,26,24,.5); flex-shrink:0; transition:color .25s; }
+.uni-row:hover .uni-ico{ color:#1C1A18; }
+.uni-txt{ flex:1; min-width:0; display:flex; flex-direction:column; }
+.uni-abbr{ font-weight:600; color:#1C1A18; font-size:1rem; line-height:1.2; }
+.uni-full{ font-size:.8125rem; color:#57514A; line-height:1.35; margin-top:.15rem; }
+.uni-num{ flex-shrink:0; display:flex; flex-direction:column; align-items:flex-end; }
+.uni-n{ font-family:"Playfair Display",Georgia,serif; font-weight:600; font-size:1.75rem; color:#C8912F; line-height:1; }
+.uni-u{ font-size:.8125rem; color:#57514A; }
+@media (max-width:768px){ .uni-grid{ grid-template-columns:1fr; } }
 header nav { gap: 1.25rem !important; }
 header nav > a { white-space: nowrap; }
 header .site-actions { flex-shrink: 0; }
@@ -471,7 +498,7 @@ body.nav-open{ overflow:hidden; }
 <div class="flex justify-between items-center w-full px-container-padding max-w-max-width mx-auto py-4">
 <div class="site-brand flex items-baseline gap-2">
 <a class="font-display-lg text-headline-sm uppercase tracking-wider text-on-surface dark:text-on-surface-variant focus-ring" href="/">DA VINCI</a>
-<span class="text-on-surface-variant text-xs hidden md:inline">художественная школа · Караганда</span>
+<span class="site-tagline text-on-surface-variant">центр подготовки к вступительным экзаменам на архитектуру и дизайн</span>
 </div>
 <nav class="hidden md:flex gap-6 items-center">
 <a class="text-on-surface-variant dark:text-tertiary-fixed-dim hover:text-primary transition-colors focus-ring" href="#program">Программа</a>
@@ -537,7 +564,7 @@ body.nav-open{ overflow:hidden; }
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="grid grid-cols-1 md:grid-cols-4 items-center">
 <div class="flex flex-col items-center text-center px-4">
-<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">142</span>
+<span class="font-display-lg text-[3rem] font-semibold text-[#1C1A18] leading-none">133</span>
 <span class="font-body-md text-[0.9375rem] text-[#57514A] mt-2">поступили в вузы</span>
 </div>
 <div class="hidden md:block h-16 w-px bg-[#DCD3C6]"></div>
@@ -565,60 +592,39 @@ body.nav-open{ overflow:hidden; }
 <h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Куда поступают наши ученики</h2>
 <div class="w-12 h-[3px] bg-ochre mx-auto"></div>
 <p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">
-                За время работы школы 142 наших ученика стали студентами художественных, архитектурных и дизайнерских направлений.
+                За время работы школы 133 наших ученика стали студентами архитектурных, дизайнерских и художественных направлений. Мы знаем требования каждой из этих приёмных комиссий и готовим под них.
             </p>
 </div>
-<div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
-<div class="flex flex-col items-center text-center group">
-<span class="material-symbols-outlined text-[40px] text-[#1C1A18]/55 group-hover:text-[#1C1A18] transition-colors mb-4">school</span>
-<span class="font-body-md font-semibold text-[#1C1A18]">ЕНУ</span>
-<span class="text-[0.8125rem] text-[#57514A]">г. Астана</span>
-<span class="font-display-lg text-[1.75rem] font-semibold text-ochre mt-2">35</span>
-<span class="text-[0.8125rem] text-[#57514A]">поступили</span>
+<div class="uni-grid">
+<div class="uni-row">
+<span class="material-symbols-outlined uni-ico">school</span>
+<span class="uni-txt"><span class="uni-abbr">ЕНУ</span><span class="uni-full">Евразийский национальный университет имени Л. Н. Гумилёва</span></span>
+<span class="uni-num"><span class="uni-n">35</span><span class="uni-u">чел</span></span>
 </div>
-<div class="flex flex-col items-center text-center group">
-<span class="material-symbols-outlined text-[40px] text-[#1C1A18]/55 group-hover:text-[#1C1A18] transition-colors mb-4">account_balance</span>
-<span class="font-body-md font-semibold text-[#1C1A18]">AIU</span>
-<span class="text-[0.8125rem] text-[#57514A]">Международный университет Астана</span>
-<span class="font-display-lg text-[1.75rem] font-semibold text-ochre mt-2">32</span>
-<span class="text-[0.8125rem] text-[#57514A]">поступили</span>
+<div class="uni-row">
+<span class="material-symbols-outlined uni-ico">account_balance</span>
+<span class="uni-txt"><span class="uni-abbr">AIU</span><span class="uni-full">Международный университет «Астана»</span></span>
+<span class="uni-num"><span class="uni-n">32</span><span class="uni-u">чел</span></span>
 </div>
-<div class="flex flex-col items-center text-center group">
-<span class="material-symbols-outlined text-[40px] text-[#1C1A18]/55 group-hover:text-[#1C1A18] transition-colors mb-4">architecture</span>
-<span class="font-body-md font-semibold text-[#1C1A18]">КазГАСА</span>
-<span class="text-[0.8125rem] text-[#57514A]">г. Алматы</span>
-<span class="font-display-lg text-[1.75rem] font-semibold text-ochre mt-2">24</span>
-<span class="text-[0.8125rem] text-[#57514A]">поступили</span>
+<div class="uni-row">
+<span class="material-symbols-outlined uni-ico">architecture</span>
+<span class="uni-txt"><span class="uni-abbr">КазГАСА</span><span class="uni-full">Казахская головная архитектурно-строительная академия</span></span>
+<span class="uni-num"><span class="uni-n">24</span><span class="uni-u">чел</span></span>
 </div>
-<div class="flex flex-col items-center text-center group">
-<span class="material-symbols-outlined text-[40px] text-[#1C1A18]/55 group-hover:text-[#1C1A18] transition-colors mb-4">palette</span>
-<span class="font-body-md font-semibold text-[#1C1A18]">КазНПУ</span>
-<span class="text-[0.8125rem] text-[#57514A]">им. Абая</span>
-<span class="font-display-lg text-[1.75rem] font-semibold text-ochre mt-2">19</span>
-<span class="text-[0.8125rem] text-[#57514A]">поступили</span>
+<div class="uni-row">
+<span class="material-symbols-outlined uni-ico">palette</span>
+<span class="uni-txt"><span class="uni-abbr">КазНПУ</span><span class="uni-full">Казахский национальный педагогический университет имени Абая</span></span>
+<span class="uni-num"><span class="uni-n">19</span><span class="uni-u">чел</span></span>
 </div>
+<div class="uni-row">
+<span class="material-symbols-outlined uni-ico">history_edu</span>
+<span class="uni-txt"><span class="uni-abbr">РГХПУ</span><span class="uni-full">Российский государственный художественно-промышленный университет имени С. Г. Строганова</span></span>
+<span class="uni-num"><span class="uni-n">15</span><span class="uni-u">чел</span></span>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-3xl mx-auto">
-<div class="flex flex-col items-center text-center group">
-<span class="material-symbols-outlined text-[40px] text-[#1C1A18]/55 group-hover:text-[#1C1A18] transition-colors mb-4">history_edu</span>
-<span class="font-body-md font-semibold text-[#1C1A18]">РГХПУ</span>
-<span class="text-[0.8125rem] text-[#57514A]">им. Строганова</span>
-<span class="font-display-lg text-[1.75rem] font-semibold text-ochre mt-2">15</span>
-<span class="text-[0.8125rem] text-[#57514A]">поступили</span>
-</div>
-<div class="flex flex-col items-center text-center group">
-<span class="material-symbols-outlined text-[40px] text-[#1C1A18]/55 group-hover:text-[#1C1A18] transition-colors mb-4">engineering</span>
-<span class="font-body-md font-semibold text-[#1C1A18]">МГТУ</span>
-<span class="text-[0.8125rem] text-[#57514A]">им. Баумана</span>
-<span class="font-display-lg text-[1.75rem] font-semibold text-ochre mt-2">9</span>
-<span class="text-[0.8125rem] text-[#57514A]">поступили</span>
-</div>
-<div class="flex flex-col items-center text-center group">
-<span class="material-symbols-outlined text-[40px] text-[#1C1A18]/55 group-hover:text-[#1C1A18] transition-colors mb-4">draw</span>
-<span class="font-body-md font-semibold text-[#1C1A18]">НИД</span>
-<span class="text-[0.8125rem] text-[#57514A]">Институт дизайна</span>
-<span class="font-display-lg text-[1.75rem] font-semibold text-ochre mt-2">8</span>
-<span class="text-[0.8125rem] text-[#57514A]">поступили</span>
+<div class="uni-row">
+<span class="material-symbols-outlined uni-ico">draw</span>
+<span class="uni-txt"><span class="uni-abbr">НИД</span><span class="uni-full">Национальный институт дизайна</span></span>
+<span class="uni-num"><span class="uni-n">8</span><span class="uni-u">чел</span></span>
 </div>
 </div>
 </div>
@@ -651,9 +657,10 @@ body.nav-open{ overflow:hidden; }
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="text-center mb-16 space-y-4">
 <p class="font-eyebrow text-eyebrow text-ochre uppercase tracking-[0.12em]">ПРОГРАММА</p>
-<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Что вы освоите за учебный год</h2>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Год, который работает на профессию</h2>
 <div class="w-12 h-[3px] bg-ochre mx-auto"></div>
-<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Мы развиваем не только технику, но и пространственное, композиционное и профессиональное мышление — навыки, которые становятся фундаментом будущей профессии.</p>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Экзамен — ближайшая цель, но не единственная. За учебный год ученик перестаёт срисовывать увиденное: он начинает мыслить объёмом, держать композицию целого листа и укладываться в отведённое время.</p>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Этим набором каждый день пользуются и архитектор, и дизайнер, и художник — поэтому год подготовки окупается не только на экзамене. Ставится он не разговорами о творчестве, а пятью дисциплинами.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
@@ -690,42 +697,42 @@ body.nav-open{ overflow:hidden; }
 <div class="max-w-max-width mx-auto px-container-padding">
 <div class="text-center mb-16 space-y-4">
 <p class="font-eyebrow text-[14px] text-[#C8912F] uppercase tracking-[0.12em]">ПОСТУПЛЕНИЕ</p>
-<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Помогаем поступить</h2>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Доводим до поступления</h2>
 <div class="w-12 h-[3px] bg-[#C8912F] mx-auto"></div>
-<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Каждый год наши ученики проходят вступительные испытания и поступают на архитектурные и дизайнерские направления.</p>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Требования у приёмных комиссий разные, и готовиться «вообще» бессмысленно. Мы выясняем, куда поступает ученик, и выстраиваем подготовку под конкретный экзамен.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 <div class="bg-[#FAF7F2] rounded-xl border border-[#DCD3C6] p-8">
-<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18] mb-6">Что входит в подготовку</h3>
+<h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18] mb-6">Что вы получаете</h3>
 <div class="space-y-4">
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Подготовка к вступительным экзаменам</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Разбор требований именно вашего вуза — у каждого свои критерии</span>
 </div>
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Подготовка портфолио для поступления в Казахстане и за рубежом</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Портфолио под Казахстан и под зарубежные вузы</span>
 </div>
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Индивидуальная работа над слабыми сторонами</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Точечная работа над тем, что проседает: построение, тон, композиция</span>
 </div>
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Системная подготовка в течение учебного года</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Занятия весь учебный год, а не рывок за месяц до экзамена</span>
 </div>
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-[#C8912F] mt-0.5" style="font-size: 20px;">check</span>
-<span class="font-body-md text-[1rem] text-[#57514A]">Свидетельство об окончании школы</span>
+<span class="font-body-md text-[1rem] text-[#57514A]">Свидетельство об окончании — в портфолио</span>
 </div>
 </div>
 </div>
 <div class="bg-[#FAF7F2] rounded-xl border border-[#DCD3C6] p-8 flex flex-col space-y-4">
-<span class="font-display-lg text-[2.5rem] text-ochre font-semibold">Только черчение</span>
-<p class="font-body-md text-[#57514A]">Если для выбранной специальности вступительный экзамен включает только черчение, можно заниматься отдельно — без прохождения полного курса художественной подготовки.</p>
+<span class="font-display-lg text-[2rem] text-ochre font-semibold">Нужно только черчение?</span>
+<p class="font-body-md text-[#57514A]">На части инженерных и архитектурных специальностей творческий экзамен — это один чертёж. Платить за полный курс художественной подготовки тогда незачем: берём отдельную программу по черчению и доводим построение до уровня, который принимает комиссия. Быстрее, дешевле, результат тот же.</p>
 <div class="h-px w-full bg-[#DCD3C6]"></div>
-<p class="font-body-md text-[#57514A]">Свидетельство об окончании школы выдаётся по итогам годового или двухгодичного обучения. Именно системная подготовка в течение учебного года даёт результат на экзамене — за два-три месяца его не достичь.</p>
-<a class="inline-block border-2 border-[#A8431F] text-[#A8431F] px-8 py-3 rounded-lg font-medium hover:bg-[#A8431F] hover:text-white transition-colors focus-ring text-center mt-2" href="#cta">Записаться только на черчение</a>
+<p class="font-body-md text-[#57514A]">Полный курс — учебный год или два. Именно по его итогам выдаётся свидетельство об окончании, которое прикладывают к портфолио. За два-три месяца не получить ни документа, ни уровня: комиссия отличает натасканную руку от поставленной.</p>
+<a class="inline-block border-2 border-[#A8431F] text-[#A8431F] px-8 py-3 rounded-lg font-medium hover:bg-[#A8431F] hover:text-white transition-colors focus-ring text-center mt-2" href="#cta">Записаться на черчение</a>
 </div>
 </div>
 </div>
@@ -1103,7 +1110,7 @@ body.nav-open{ overflow:hidden; }
 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
 <div class="space-y-2">
 <a class="block font-display-lg font-semibold text-[1.5rem] text-[#1C1A18] tracking-wider uppercase focus-ring w-fit" href="/">DA VINCI</a>
-<p class="font-body-md text-[0.875rem] text-[#57514A]">Художественная школа</p>
+<p class="font-body-md text-[0.875rem] text-[#57514A]">Центр подготовки к вступительным экзаменам<br/>на архитектуру и дизайн</p>
 <p class="font-body-md text-[0.875rem] text-[#A8431F] mt-2">Рисуем знания, создаём будущее</p>
 </div>
 <div class="flex flex-col space-y-3">
