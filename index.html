@@ -336,6 +336,74 @@ header .site-brand > .site-tagline{
 }
 @media (max-width:1100px){ header .site-brand > .site-tagline{ display:none !important; } }
 
+/* Бесконечные ленты работ. Дорожка содержит удвоенный набор кадров и едет
+   на -50% — в этой точке второй набор оказывается ровно там, где был первый,
+   поэтому цикл незаметен. Пауза при наведении и полное отключение анимации
+   при системной настройке «уменьшить движение». */
+.marquee{ overflow:hidden; width:100%; padding-block:.25rem; }
+.marq-track{ display:flex; gap:1rem; width:max-content; animation:marq 95s linear infinite; }
+.marq-img{ height:280px; width:auto; display:block; border-radius:8px; flex-shrink:0; }
+@keyframes marq{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
+.marq-rev{ margin-top:1rem; }
+.marq-rev .marq-track{ animation-duration:75s; animation-direction:reverse; }
+.marquee:hover .marq-track{ animation-play-state:paused; }
+@media (max-width:640px){ .marq-img{ height:190px; } .marq-track{ animation-duration:60s; } .marq-rev .marq-track{ animation-duration:50s; } }
+@media (prefers-reduced-motion: reduce){
+  .marq-track{ animation:none; }
+  .marquee{ overflow-x:auto; scroll-snap-type:x proximity; }
+}
+
+/* Логотипы вузов вместо иконок. Ширина у них разная — от узкого герба
+   до вытянутой надписи, поэтому даём фиксированный слот и вписываем логотип
+   внутрь, иначе строки в двух колонках не выровняются друг с другом. */
+.uni-logo{
+  height:40px; width:96px; object-fit:contain; object-position:left center;
+  flex-shrink:0; opacity:.78; transition:opacity .25s;
+}
+.uni-row:hover .uni-logo{ opacity:1; }
+@media (max-width:520px){ .uni-logo{ width:66px; height:34px; } }
+
+/* Управляемая карусель отзывов. Тексты длинные, поэтому показываем
+   по одному отзыву за раз: человек дочитывает и сам листает дальше.
+   Автопрокрутки нет намеренно — она уводит текст из-под глаз читающего. */
+.rev-carousel{ display:flex; align-items:center; gap:.75rem; max-width:860px; margin:0 auto; }
+.rev-viewport{ overflow:hidden; flex:1; min-width:0; }
+.rev-track{ display:flex; transition:transform .35s ease; }
+.rev-slide{
+  flex:0 0 100%; min-width:100%; box-sizing:border-box;
+  background:#FAF7F2; border:1px solid #DCD3C6; border-radius:12px; padding:2.5rem;
+  display:flex; flex-direction:column; gap:1rem;
+}
+.rev-text{ font-size:1rem; line-height:1.7; color:#57514A; margin:0; }
+.rev-author{ font-weight:600; color:#1C1A18; font-size:.9375rem; margin-top:auto; padding-top:.5rem; border-top:1px solid #DCD3C6; }
+.rev-btn{
+  width:44px; height:44px; flex-shrink:0; border:1px solid #DCD3C6; background:#FAF7F2;
+  border-radius:50%; font-size:1.75rem; line-height:1; color:#57514A; cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.rev-btn:hover{ background:#A8431F; color:#fff; border-color:#A8431F; }
+.rev-dots{ display:flex; justify-content:center; gap:.5rem; margin-top:1.5rem; }
+.rev-dot{ width:9px; height:9px; border-radius:50%; border:0; padding:0; background:#DCD3C6; cursor:pointer; transition:background .2s,transform .2s; }
+.rev-dot[aria-current="true"]{ background:#A8431F; transform:scale(1.25); }
+@media (max-width:640px){
+  /* Стрелки по бокам съедали треть ширины, и длинный отзыв вытягивался
+     в узкую колонку на тысячу пикселей. Переносим их под слайд:
+     текст получает всю ширину экрана. Свайп при этом тоже работает. */
+  .rev-carousel{ flex-wrap:wrap; justify-content:center; gap:.75rem; }
+  .rev-viewport{ order:1; flex:0 0 100%; width:100%; }
+  .rev-prev{ order:2; }
+  .rev-next{ order:3; }
+  .rev-slide{ padding:1.5rem; }
+  .rev-btn{ width:42px; height:42px; font-size:1.5rem; }
+  .rev-dots{ margin-top:1rem; }
+}
+@media (prefers-reduced-motion: reduce){ .rev-track{ transition:none; } }
+
+/* Отзывы */
+.review-stars{ color:#C8912F; font-size:1rem; letter-spacing:.12em; line-height:1; }
+.review-text{ line-height:1.65; }
+@media (max-width:900px){ .review-text{ font-size:1rem; } }
+
 /* Вузы: строка вместо колонки. Полные названия длинные, и в центрированном
    столбике они рвались на четыре строки — в строку читается спокойнее. */
 .uni-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
@@ -471,16 +539,6 @@ body.nav-open{ overflow:hidden; }
    страницу до 22 000px, и до блока цены никто не доскроллит. Превращаем в ленту
    с горизонтальным свайпом и прилипанием кадров. overflow-x на самой ленте —
    иначе горизонтальная прокрутка утекает на всю страницу. */
-@media (max-width:640px){
-  #works .grid{
-    display:flex !important; overflow-x:auto; gap:1rem; padding-bottom:.75rem;
-    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-    scrollbar-width:thin;
-  }
-  #works .grid > div{ flex:0 0 74%; scroll-snap-align:center; }
-  #works .grid::-webkit-scrollbar{ height:3px; }
-  #works .grid::-webkit-scrollbar-thumb{ background:rgba(250,247,242,.35); border-radius:3px; }
-}
 @media (max-width:900px){
   .nav-burger{ display:flex; }
   .mobile-bar{ display:flex; }
@@ -532,7 +590,7 @@ body.nav-open{ overflow:hidden; }
 </nav>
 <div class="nav-drawer-foot">
 <a class="nav-drawer-phone" href="tel:+77755677056">+7 775 567 7056</a>
-<span class="nav-drawer-addr">г. Караганда, ул. Бухар-Жырау, 55</span>
+<span class="nav-drawer-addr">г. Караганда, проспект Бухар-жырау, ст55, ТД Абсолют</span>
 <a class="btn-primary nav-drawer-cta focus-ring" href="#cta">Записаться на пробное занятие</a>
 </div>
 </div>
@@ -597,32 +655,32 @@ body.nav-open{ overflow:hidden; }
 </div>
 <div class="uni-grid">
 <div class="uni-row">
-<span class="material-symbols-outlined uni-ico">school</span>
+<img alt="Логотип ЕНУ им. Гумилёва" class="uni-logo" loading="lazy" src="img/logos/enu.png"/>
 <span class="uni-txt"><span class="uni-abbr">ЕНУ</span><span class="uni-full">Евразийский национальный университет имени Л. Н. Гумилёва</span></span>
 <span class="uni-num"><span class="uni-n">35</span><span class="uni-u">чел</span></span>
 </div>
 <div class="uni-row">
-<span class="material-symbols-outlined uni-ico">account_balance</span>
+<img alt="Логотип Международного университета «Астана»" class="uni-logo" loading="lazy" src="img/logos/aiu.png"/>
 <span class="uni-txt"><span class="uni-abbr">AIU</span><span class="uni-full">Международный университет «Астана»</span></span>
 <span class="uni-num"><span class="uni-n">32</span><span class="uni-u">чел</span></span>
 </div>
 <div class="uni-row">
-<span class="material-symbols-outlined uni-ico">architecture</span>
+<img alt="Логотип КазГАСА" class="uni-logo" loading="lazy" src="img/logos/kazgasa.png"/>
 <span class="uni-txt"><span class="uni-abbr">КазГАСА</span><span class="uni-full">Казахская головная архитектурно-строительная академия</span></span>
 <span class="uni-num"><span class="uni-n">24</span><span class="uni-u">чел</span></span>
 </div>
 <div class="uni-row">
-<span class="material-symbols-outlined uni-ico">palette</span>
+<img alt="Логотип КазНПУ им. Абая" class="uni-logo" loading="lazy" src="img/logos/kaznpu.png"/>
 <span class="uni-txt"><span class="uni-abbr">КазНПУ</span><span class="uni-full">Казахский национальный педагогический университет имени Абая</span></span>
 <span class="uni-num"><span class="uni-n">19</span><span class="uni-u">чел</span></span>
 </div>
 <div class="uni-row">
-<span class="material-symbols-outlined uni-ico">history_edu</span>
+<img alt="Логотип РГХПУ им. Строганова" class="uni-logo" loading="lazy" src="img/logos/stroganov.png"/>
 <span class="uni-txt"><span class="uni-abbr">РГХПУ</span><span class="uni-full">Российский государственный художественно-промышленный университет имени С. Г. Строганова</span></span>
 <span class="uni-num"><span class="uni-n">15</span><span class="uni-u">чел</span></span>
 </div>
 <div class="uni-row">
-<span class="material-symbols-outlined uni-ico">draw</span>
+<img alt="Логотип Национального института дизайна" class="uni-logo" loading="lazy" src="img/logos/nid.png"/>
 <span class="uni-txt"><span class="uni-abbr">НИД</span><span class="uni-full">Национальный институт дизайна</span></span>
 <span class="uni-num"><span class="uni-n">8</span><span class="uni-u">чел</span></span>
 </div>
@@ -666,27 +724,27 @@ body.nav-open{ overflow:hidden; }
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">01</span>
 <h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Академический рисунок</h3>
-<p class="font-body-md text-[#57514A]">Гипсовые тела, натюрморт, гипсовая голова, портрет с натуры. Основа вступительного экзамена.</p>
+<p class="font-body-md text-[#57514A]">Гипсовые тела вращения, натюрморт, античная голова, портрет с натуры. Основной лист вступительного экзамена в любом вузе.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">02</span>
 <h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Живопись</h3>
-<p class="font-body-md text-[#57514A]">Акварель и гуашь. Тональные и цветовые отношения, передача материальности.</p>
+<p class="font-body-md text-[#57514A]">Акварель и гуашь: тональные и цветовые отношения, передача материальности предметов и глубины пространства в листе.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">03</span>
 <h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Черчение</h3>
-<p class="font-body-md text-[#57514A]">Проекции, разрезы, аксонометрия. Для архитектурных и инженерных направлений.</p>
+<p class="font-body-md text-[#57514A]">Проекции, разрезы, аксонометрия и линейная перспектива. Обязательная часть экзамена на архитектурных и инженерных направлениях.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">04</span>
 <h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Композиция</h3>
-<p class="font-body-md text-[#57514A]">Законы построения листа: равновесие, ритм, соподчинение, золотое сечение.</p>
+<p class="font-body-md text-[#57514A]">Законы построения листа: равновесие, ритм, соподчинение, золотое сечение. Умение собрать разрозненное в единое целое.</p>
 </div>
 <div class="bg-[#F1EAE0] rounded-xl border border-[#DCD3C6] p-8 space-y-4">
 <span class="font-display-lg text-[2.5rem] text-ochre font-semibold">05</span>
 <h3 class="font-body-md font-semibold text-[1.25rem] text-[#1C1A18]">Скульптура</h3>
-<p class="font-body-md text-[#57514A]">Работа с объёмом и пластикой формы. Развивает пространственное мышление.</p>
+<p class="font-body-md text-[#57514A]">Лепка объёма и пластики формы. Ставит пространственное мышление, без которого не построить рисунок.</p>
 </div>
 </div>
 <div class="text-center">
@@ -801,89 +859,17 @@ body.nav-open{ overflow:hidden; }
 </section>
 <section class="bg-[#1C1A18] py-24" id="works">
 <div class="max-w-max-width mx-auto px-container-padding">
-<div class="text-center mb-16 space-y-4">
-<p class="font-eyebrow text-[14px] text-[#C8912F] uppercase tracking-[0.12em]">СТУДИЯ</p>
-<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#FAF7F2]">Внутри нашей студии</h2>
-<p class="font-body-md text-[#FAF7F2] opacity-75 max-w-[68ch] mx-auto">Занятия идут в оборудованной мастерской: мольберты, гипсовые слепки, натурный фонд. Малые группы, разбор каждой работы.</p>
+<div class="text-center mb-12 space-y-4">
+<p class="font-eyebrow text-[14px] text-[#C8912F] uppercase tracking-[0.12em]">РАБОТЫ УЧЕНИКОВ</p>
+<h2 class="font-display-lg text-[2.5rem] font-semibold text-[#FAF7F2]">Что получается у наших учеников</h2>
 <div class="w-12 h-[3px] bg-[#C8912F] mx-auto"></div>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-16">
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Ученица рисует гипсовую голову с натуры" class="w-full h-full object-cover block" loading="lazy" src="img/studio-1.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Академический рисунок</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Гипсовая голова с натуры</p>
+<p class="font-body-md text-[#FAF7F2] opacity-75 max-w-[68ch] mx-auto">Академический рисунок, живопись, композиция. Работы учеников школы разных лет — и лица тех, кто их сделал.</p>
 </div>
 </div>
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Ученица работает над портретом живой модели" class="w-full h-full object-cover block" loading="lazy" src="img/studio-2.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Портрет с натуры</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Работа с живой моделью</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Штудии гипсовых слепков: глаз и ухо" class="w-full h-full object-cover block" loading="lazy" src="img/studio-3.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Штудии деталей</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Глаз, ухо, нос — гипсовые слепки</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Ученик выполняет чертёж" class="w-full h-full object-cover block" loading="lazy" src="img/studio-4.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Черчение</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Для архитектурных направлений</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Занятие в студии художественной школы" class="w-full h-full object-cover block" loading="lazy" src="img/studio-5.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Занятие в студии</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Малые группы, разбор каждой работы</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Мастерская с мольбертами и гипсовыми слепками" class="w-full h-full object-cover block" loading="lazy" src="img/studio-6.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Наша мастерская</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Мольберты, слепки, натурный фонд</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Вручение свидетельств об окончании школы" class="w-full h-full object-cover block" loading="lazy" src="img/studio-7.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Свидетельство об окончании</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Выдаётся по итогам учебного года</p>
-</div>
-</div>
-<div class="space-y-4">
-<div class="aspect-square w-full overflow-hidden rounded-xl">
-<img alt="Ученица пишет живопись на мольберте" class="w-full h-full object-cover block" loading="lazy" src="img/studio-8.jpg"/>
-</div>
-<div>
-<h4 class="font-body-md font-semibold text-[1rem] text-[#FAF7F2]">Живопись</h4>
-<p class="font-body-md text-[0.875rem] text-[#FAF7F2] opacity-70">Акварель и гуашь на мольберте</p>
-</div>
-</div>
-</div>
-<div class="text-center">
-<a class="inline-block bg-[#A8431F] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#882c08] transition-colors focus-ring" href="#cta">Хочу так же — записаться</a>
-</div>
+<div class="marquee"><div class="marq-track"><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w01.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w02.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w03.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w04.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w05.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w06.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w07.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w08.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w09.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w10.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w11.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w12.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w13.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w14.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w15.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w16.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w17.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w18.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w01.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w02.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w03.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w04.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w05.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w06.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w07.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w08.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w09.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w10.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w11.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w12.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w13.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w14.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w15.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w16.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w17.jpg"/><img alt="Работа ученика художественной школы Da Vinci" class="marq-img" loading="lazy" src="img/works/w18.jpg"/></div></div>
+<div class="marquee marq-rev"><div class="marq-track"><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f01.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f02.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f03.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f04.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f05.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f06.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f07.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f08.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f09.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f10.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f11.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f12.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-1.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-2.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-3.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-4.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-5.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-6.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-7.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-8.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f01.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f02.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f03.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f04.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f05.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f06.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f07.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f08.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f09.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f10.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f11.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/faces/f12.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-1.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-2.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-3.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-4.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-5.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-6.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-7.jpg"/><img alt="Ученик школы Da Vinci со своей работой" class="marq-img" loading="lazy" src="img/studio-8.jpg"/></div></div>
+<div class="max-w-max-width mx-auto px-container-padding text-center mt-12">
+<a class="bg-[#A8431F] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#882c08] transition-colors focus-ring inline-block" href="#cta">Хочу так же — записаться</a>
 </div>
 </section>
 <section class="bg-[#FAF7F2] py-24" id="price">
@@ -943,39 +929,50 @@ body.nav-open{ overflow:hidden; }
 <div class="text-center mb-16 space-y-4">
 <h2 class="font-display-lg text-[2.5rem] font-semibold text-[#1C1A18]">Что говорят ученики и родители</h2>
 <div class="w-12 h-[3px] bg-[#C8912F] mx-auto"></div>
+<p class="font-body-md text-[#57514A] max-w-[68ch] mx-auto">Отзывы взяты с карточки школы в 2ГИС. <a class="underline hover:text-[#A8431F] transition-colors focus-ring" href="https://2gis.kz/karaganda/firm/70000001034276694/tab/reviews" rel="noopener" target="_blank">Читать все отзывы</a></p>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="bg-[#FAF7F2] rounded-[12px] border border-[#DCD3C6] p-8 flex flex-col gap-6">
+<div class="rev-carousel" id="rev-carousel">
+<button class="rev-btn rev-prev focus-ring" type="button" aria-label="Предыдущий отзыв">‹</button>
+<div class="rev-viewport"><div class="rev-track"><article class="rev-slide" role="group" aria-roledescription="отзыв" aria-label="1 из 7">
 <div class="font-display-lg text-[3rem] text-[#C8912F] leading-none">"</div>
-<div class="flex flex-col gap-3">
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-full"></div>
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-[92%]"></div>
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-[68%]"></div>
-</div>
-<div class="h-px w-full bg-[#DCD3C6]"></div>
-<div class="font-body-md text-[0.875rem] text-[#57514A]">[отзыв]</div>
-</div>
-<div class="bg-[#FAF7F2] rounded-[12px] border border-[#DCD3C6] p-8 flex flex-col gap-6">
+<div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+<p class="rev-text">Хотела написать про эту чудесную студию, которая стала для моей дочери местом, куда она всегда бежит с огромной радостью. Помещение очень светлое, просторное и уютное, преподаватель внимательный и прекрасно ладит с детьми, побольше бы таких! Хотя когда пришли в первый раз, очень переживали по этому поводу. Уже год она занимается и делает успехи, и в этом году поступила на грант в университет! И вот что ещё очень нравится — всё, что нужно, уже есть, не нужно ни о чём заботиться, все материалы готовы к занятиям. Расположение удобное. Всем рекомендую Da Vinci!</p>
+<div class="rev-author">Людмила Молчанова</div>
+</article><article class="rev-slide" role="group" aria-roledescription="отзыв" aria-label="2 из 7">
 <div class="font-display-lg text-[3rem] text-[#C8912F] leading-none">"</div>
-<div class="flex flex-col gap-3">
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-full"></div>
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-[92%]"></div>
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-[68%]"></div>
-</div>
-<div class="h-px w-full bg-[#DCD3C6]"></div>
-<div class="font-body-md text-[0.875rem] text-[#57514A]">[отзыв]</div>
-</div>
-<div class="bg-[#FAF7F2] rounded-[12px] border border-[#DCD3C6] p-8 flex flex-col gap-6">
+<div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+<p class="rev-text">От всей души благодарю школу Да Винчи за подготовку моей дочери к поступлению в ВУЗ! Уже за первые 3 месяца занятий под чутким руководством преподавателей дочка практически с нуля освоила основные техники рисунка и живописи и не перестаёт удивлять меня своими работами. В студии царит такая доброжелательная и спокойная атмосфера, что если сюда войдёшь, то не хочется уходить: дочка обожает здесь заниматься и чувствует себя комфортно и уверенно. Особенно хочется отметить отзывчивость и индивидуальный подход Жанны Сергеевны к каждому ученику. Я очень рада, что среди разнообразия школ в Караганде доверила свою дочь именно Да Винчи!</p>
+<div class="rev-author">Елизавета Алексеевна</div>
+</article><article class="rev-slide" role="group" aria-roledescription="отзыв" aria-label="3 из 7">
 <div class="font-display-lg text-[3rem] text-[#C8912F] leading-none">"</div>
-<div class="flex flex-col gap-3">
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-full"></div>
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-[92%]"></div>
-<div class="h-[8px] bg-[#DCD3C6] rounded-full w-[68%]"></div>
+<div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+<p class="rev-text">Замечательная школа, профессиональное обучение. Моя дочь уже полгода там занимается — пришла, не умея вообще рисовать, даже, не побоюсь сказать, элементарные геометрические фигуры. Сейчас она рисует такие шикарные картины, разбирается в техниках рисования, в различных видах красок. Я очень благодарна учителю. Ни разу за всё время дочь не пропустила уроки, со школы бежит сразу туда и так интересно рассказывает, как рисует. Это очень важно, ведь так тяжело заинтересовать подростка. Всем рекомендую.</p>
+<div class="rev-author">Ирина Шотгауэр</div>
+</article>
+<article class="rev-slide" role="group" aria-roledescription="отзыв" aria-label="4 из 7">
+<div class="font-display-lg text-[3rem] text-[#C8912F] leading-none">"</div>
+<div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+<p class="rev-text">Прекрасное учебное заведение! Отличные преподаватели, удобная и просторная студия. За год смог высоко поднять навыки рисования и творчество.</p>
+<div class="rev-author">Тілеубай Аңсар</div>
+</article><article class="rev-slide" role="group" aria-roledescription="отзыв" aria-label="5 из 7">
+<div class="font-display-lg text-[3rem] text-[#C8912F] leading-none">"</div>
+<div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+<p class="rev-text">Я начал ходить в эту студию 2 месяца назад и не знал до этого времени, что я смогу рисовать очень красивые картины. Спасибо большое мастеру! Всем, кто хочет научиться рисовать красиво, советую сходить на уроки, не пожалеете. Там всегда тепло, уютно, светло и всегда есть вкусный кофе.</p>
+<div class="rev-author">Анушер Михридинов</div>
+</article><article class="rev-slide" role="group" aria-roledescription="отзыв" aria-label="6 из 7">
+<div class="font-display-lg text-[3rem] text-[#C8912F] leading-none">"</div>
+<div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+<p class="rev-text">Начал заниматься в этой студии два месяца назад. Надеюсь научиться рисовать. Мои навыки из-за возраста частично утрачены, но всё можно развить. Главное — внимательно слушать руководителя!</p>
+<div class="rev-author">Тимур Аманжолов</div>
+</article><article class="rev-slide" role="group" aria-roledescription="отзыв" aria-label="7 из 7">
+<div class="font-display-lg text-[3rem] text-[#C8912F] leading-none">"</div>
+<div class="review-stars" aria-label="Оценка 5 из 5">★★★★★</div>
+<p class="rev-text">Прекрасная школа! Отличная материальная база, преподаватель, удобное расположение, атмосфера. Профессиональный подход. Рекомендую!</p>
+<div class="rev-author">Александр Фролов</div>
+</article></div></div>
+<button class="rev-btn rev-next focus-ring" type="button" aria-label="Следующий отзыв">›</button>
 </div>
-<div class="h-px w-full bg-[#DCD3C6]"></div>
-<div class="font-body-md text-[0.875rem] text-[#57514A]">[отзыв]</div>
-</div>
-</div>
+<div class="rev-dots" id="rev-dots"></div>
 </div>
 </section>
 <section class="bg-[#FAF7F2] py-24" id="faq">
@@ -1028,7 +1025,7 @@ body.nav-open{ overflow:hidden; }
                     <span class="material-symbols-outlined text-[#C8912F] transition-transform duration-300 group-open:rotate-180">expand_more</span>
 </summary>
 <div class="pb-6 font-body-md text-[1rem] text-[#57514A]">
-                    Караганда, улица Бухар-Жырау, 55.
+                    Караганда, проспект Бухар-жырау, ст55, ТД Абсолют.
                 </div>
 </details>
 <details class="group border-b border-[#DCD3C6]">
@@ -1055,7 +1052,7 @@ body.nav-open{ overflow:hidden; }
 <a class="block font-display-lg font-semibold text-[2rem] text-[#C8912F] hover:text-[#e8a93a] transition-colors focus-ring w-fit" href="tel:+77755677056">
                         +7 775 567 7056
                     </a>
-<p class="font-body-md text-[0.9375rem] text-[#FAF7F2] opacity-70">г. Караганда, ул. Бухар-Жырау, 55</p>
+<p class="font-body-md text-[0.9375rem] text-[#FAF7F2] opacity-70">г. Караганда, проспект Бухар-жырау, ст55, ТД Абсолют</p>
 </div>
 <div>
 <a class="btn-whatsapp inline-flex items-center gap-2 px-6 py-3 font-medium focus-ring" href="https://wa.me/message/QI4VS3OEHOCRC1">
@@ -1122,7 +1119,7 @@ body.nav-open{ overflow:hidden; }
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="privacy.html">Политика обработки данных</a>
 </div>
 <div class="flex flex-col space-y-3">
-<p class="font-body-md text-[0.9375rem] text-[#57514A]">г. Караганда, ул. Бухар-Жырау, 55</p>
+<p class="font-body-md text-[0.9375rem] text-[#57514A]">г. Караганда, проспект Бухар-жырау, ст55, ТД Абсолют</p>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="tel:+77755677056">+7 775 567 7056</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="https://www.instagram.com/tvorchestvo_masterklass/">@tvorchestvo_masterklass</a>
 <a class="font-body-md text-[0.9375rem] text-[#57514A] hover:text-[#A8431F] transition-colors focus-ring w-fit" href="https://wa.me/message/QI4VS3OEHOCRC1">WhatsApp</a>
@@ -1260,6 +1257,53 @@ body.nav-open{ overflow:hidden; }
   drawer.addEventListener('click',function(e){ if(e.target.tagName==='A') setOpen(false); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&drawer.classList.contains('open')) setOpen(false); });
   window.addEventListener('resize',function(){ if(window.innerWidth>900&&drawer.classList.contains('open')) setOpen(false); });
+})();
+</script>
+<script id="rev-carousel-script">
+/* Листание отзывов: кнопки, точки, стрелки клавиатуры и свайп на телефоне.
+   Высота дорожки равна самому длинному отзыву, чтобы блок не прыгал
+   при перелистывании. */
+(function(){
+  var root=document.getElementById('rev-carousel');
+  var dots=document.getElementById('rev-dots');
+  if(!root||!dots) return;
+  var track=root.querySelector('.rev-track');
+  var slides=[].slice.call(root.querySelectorAll('.rev-slide'));
+  var prev=root.querySelector('.rev-prev'), next=root.querySelector('.rev-next');
+  var i=0;
+
+  slides.forEach(function(_,n){
+    var b=document.createElement('button');
+    b.className='rev-dot'; b.type='button';
+    b.setAttribute('aria-label','Отзыв '+(n+1));
+    b.addEventListener('click',function(){ go(n); });
+    dots.appendChild(b);
+  });
+  var dotEls=[].slice.call(dots.children);
+
+  /* Листание по кругу: с последнего отзыва «вперёд» ведёт на первый,
+     с первого «назад» — на последний. Кнопки никогда не гаснут. */
+  function go(n){
+    var len=slides.length;
+    i=((n%len)+len)%len;
+    track.style.transform='translateX('+(-i*100)+'%)';
+    dotEls.forEach(function(d,k){ d.setAttribute('aria-current', k===i?'true':'false'); });
+  }
+  prev.addEventListener('click',function(){ go(i-1); });
+  next.addEventListener('click',function(){ go(i+1); });
+  root.addEventListener('keydown',function(e){
+    if(e.key==='ArrowLeft') go(i-1);
+    if(e.key==='ArrowRight') go(i+1);
+  });
+  var x0=null;
+  root.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+  root.addEventListener('touchend',function(e){
+    if(x0===null) return;
+    var dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>50) go(i+(dx<0?1:-1));
+    x0=null;
+  },{passive:true});
+  go(0);
 })();
 </script>
 </body></html>
